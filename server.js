@@ -10,6 +10,7 @@ const PORT = process.env.PORT || 3001;
 
 //middleware
 app.use(express.urlencoded({extended: true}));
+app.use(express.json());
 
 //server static assets
 if (process.env.NODE_ENV === "production") {
