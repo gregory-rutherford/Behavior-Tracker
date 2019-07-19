@@ -6,8 +6,8 @@ const apiRoutes = require("./api");
 router.use("/api", apiRoutes);
 
 //default to react app index
-router.use(function(req, res){
-    res.sendFile(path.join__dirname, "../client/build/index.html")
-});
+// router.use(function(req, res){
+//     res.sendFile(path.join__dirname, "../client/build/index.html")
+// });
 
 module.exports = router;

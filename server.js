@@ -2,6 +2,7 @@
 const express = require ("express");
 const mongoose = require("mongoose");
 const routes = require("./routes");
+const logger = require("morgan");
 
 //initialize
 const app = express();
@@ -11,8 +12,9 @@ const PORT = process.env.PORT || 3001;
 //middleware
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
+app.use(logger('dev'));
 
-//server static assets
+//serve static assets
 if (process.env.NODE_ENV === "production") {
     app.use(express.static("client/build"))
 };
