@@ -12,6 +12,7 @@ An id is stored via local storage and once the user enters a task the task objec
 __Front End__
 * React
 * Materialize
+
 __Back End__
 * Feathers.js
 * Express (via Feathers)
