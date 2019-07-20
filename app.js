@@ -57,6 +57,14 @@ app.get("/api/data/:id", function(req, res) {
     .catch(err=> res.json(err));
 });
 
+app.post("/api/data/", function(req, res){
+    db.Task.create(req.body)
+      .then(dbTask => {
+        res.json(dbTask);
+      })
+      .catch(err => res.json(err));
+});
+
 
 app.use(express.errorHandler());
 
