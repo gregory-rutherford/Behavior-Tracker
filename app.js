@@ -1,6 +1,7 @@
 const feathers = require("@feathersjs/feathers");
 const express = require("@feathersjs/express");
 const socketio= require("@feathersjs/socketio");
+const cors = require("cors");
 
 const mongoose = require("mongoose");
 const service = require("feathers-mongoose");
@@ -19,6 +20,7 @@ app.use(express.urlencoded({extended:true}));
 
 app.configure(express.rest());
 app.configure(socketio());
+app.use(cors());
 
 
 
@@ -41,14 +43,16 @@ app.configure(socketio());
 //     console.log("created task", task);
 // });
 
+//locate one task, for testing purposes
 app.get("/api/data", function (req, res){
     db.Task.find({})
     .then(dbTask => {
         res.json(dbTask);
     })
     .catch(err=> res.json(err));
-})
+});
 
+//locate task by unique mongo id
 app.get("/api/data/:id", function(req, res) {
   db.Task.findOne({ _id: req.params.id })
     .then(dbTask => {
@@ -57,12 +61,27 @@ app.get("/api/data/:id", function(req, res) {
     .catch(err=> res.json(err));
 });
 
+//create new task, all booleans default to false
 app.post("/api/data/", function(req, res){
     db.Task.create(req.body)
       .then(dbTask => {
         res.json(dbTask);
       })
       .catch(err => res.json(err));
+});
+//edit a task
+app.put("/api/data/:id", function (req, res){
+    db.Task.findOneAndUpdate({_id: req.params.id})
+    .then()
+})
+
+//delete task
+app.delete("/api/data/:id", function(req, res) {
+  db.Task.findOneAndDelete({ _id: req.params.id })
+    .then(dbTask => {
+      res.json(dbTask);
+    })
+    .catch(err => res.json(err));
 });
 
 
