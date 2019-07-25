@@ -5,7 +5,6 @@ const Form = (props) => {
 
     return (
       <form>
-        <p>Task: {props.taskName}</p>
         <input
           type="text"
           placeholder="Your Task"

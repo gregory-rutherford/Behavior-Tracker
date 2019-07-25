@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Form from "../../Components/Form/Form";
-import { set } from "mongoose";
 
 
  const Chart = function Chart() {
         const [taskName, setTaskName] = useState("");
-        const [data, setData] = useState({ returned: [] });
+        const [data, setData] = useState( [] );
+        const [uniqueId, setUniqueId] = useState(0);
 
 
         // const [userId, setUserId] = useState(0);
@@ -19,9 +19,10 @@ import { set } from "mongoose";
         const handleTaskSubmit = event => {
           // storeId();
           event.preventDefault();
+          let increase = (uniqueId +1);
+          setUniqueId(increase);
           console.log(taskName);
-          // axios call to api
-          const inputs = { taskName: taskName, storageId: 5 };
+          const inputs = { taskName: taskName, storageId: uniqueId };
           const options = {
             headers: { "Content-Type": "application/json" },
             method: "POST",
@@ -48,13 +49,15 @@ import { set } from "mongoose";
 
         useEffect(() => {
           const fetchData = async () => {
-            const result = await fetch(
+            const result =  await fetch(
               "http://localhost:3030/api/data"
-            )
-            .then(res=>res.json());
-            setData(result);
+            );
+            const json = await result.json();
+            console.log(json);
+            setData(json)
           };
           fetchData();
+          console.log(data);
         }, []);
 
 
