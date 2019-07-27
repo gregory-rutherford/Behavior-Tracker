@@ -70,9 +70,17 @@ app.post("/api/data/", function(req, res){
       .catch(err => res.json(err));
 });
 //edit a task
-app.put("/api/data/:id", function (req, res){
-    db.Task.findOneAndUpdate({_id: req.params.id})
-    .then()
+app.put("/api/data/:id/", async (req, res) => {
+  // need to store days in an object with key "day", then grab the day name
+  //from the clicked day, then $set to true, false whatever
+    try {
+      var Task = await db.Task.findById(req.params.id).exec();
+      Task.set(req.body);
+      var result= await db.Task.save();
+      res.send(result)
+    } catch(error) {
+      res.status(500).send(error);
+    }
 })
 
 //delete task

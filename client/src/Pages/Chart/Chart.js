@@ -1,20 +1,15 @@
 import React, { useState, useEffect } from "react";
 import Form from "../../Components/Form/Form";
-
+import Checkbox from "../../Components/Checkbox/Checkbox";
 
  const Chart = function Chart() {
         const [taskName, setTaskName] = useState("");
         const [data, setData] = useState( [] );
         const [uniqueId, setUniqueId] = useState(0);
+        const [checked, setChecked] = useState(false);
 
 
-        // const [userId, setUserId] = useState(0);
-
-        // const storeId = () => {
-        //   let key = "uniqueId";
-        //   setUserId(userId + 1);
-        //   localStorage.setItem(key, userId);
-        // };
+       
 
         const handleTaskSubmit = event => {
           // storeId();
@@ -47,6 +42,28 @@ import Form from "../../Components/Form/Form";
           }
         };
 
+   const handleCheckboxChange = event => {
+     const target = event.target;
+     const value = target.type === 'checkbox' ? target.checked : target.value;
+     const name = target.name;
+
+     this.setState({
+       [name]: value
+     });
+
+     switch(name) {
+       case "checked":
+        setChecked(value);
+        break;
+        default:
+        break;
+     }
+
+
+   }
+
+        
+
         useEffect(() => {
           const fetchData = async () => {
             const result =  await fetch(
@@ -57,7 +74,6 @@ import Form from "../../Components/Form/Form";
             setData(json)
           };
           fetchData();
-          console.log(data);
         }, []);
 
 
@@ -68,7 +84,6 @@ import Form from "../../Components/Form/Form";
             change={handleInputChange}
             submit={handleTaskSubmit}
           />
-            {/* {data.returned.map(item => ( */}
               <table>
                 <thead>
                   <tr>
@@ -82,22 +97,23 @@ import Form from "../../Components/Form/Form";
                     <th>Sunday</th>
                   </tr>
                 </thead>
+                {data.map(item => (
                 <tbody>
                   <tr>
                     <th>
+                      {item.taskName}
                     </th>
-                    <td className="monday">
-                      <p>stuff goes here </p>
+                    <td className="monday" data-attr={item.monday} id={item._id}>
+                    <Checkbox check={checked} onChange={handleCheckboxChange}/>
                     </td>
                     <td className="tuesday">
-                      <p>stuff goes here</p>
                     </td>
                   </tr>
                 </tbody>
+                ))}
               </table>
-            {/* ))} */}
           </div>
-        );
-      };;
+        )
+      };
 
 export default Chart;
