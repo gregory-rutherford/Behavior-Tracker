@@ -54,11 +54,10 @@ app.get("/api/data", function (req, res){
 
 //locate task by unique mongo id
 app.get("/api/data/:id", function(req, res) {
-  db.Task.findOne({ _id: req.params.id })
-    .then(dbTask => {
-      res.json(dbTask);
-    })
-    .catch(err=> res.json(err));
+  db.Task
+    .findById(req.params.id)
+    .then(dbTask => res.json(dbTask))
+    .catch(err => res.status(422).json(err));
 });
 
 //create new task, all booleans default to false
@@ -85,11 +84,10 @@ app.put("/api/data/:id/", async (req, res) => {
 
 //delete task
 app.delete("/api/data/:id", function(req, res) {
-  db.Task.findOneAndDelete({ _id: req.params.id })
-    .then(dbTask => {
-      res.json(dbTask);
-    })
-    .catch(err => res.json(err));
+  db.Task.findById({ _id: req.params.id })
+      .then(dbModel => dbModel.remove())
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
 });
 
 
