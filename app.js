@@ -1,6 +1,6 @@
 const feathers = require("@feathersjs/feathers");
 const express = require("@feathersjs/express");
-const socketio= require("@feathersjs/socketio");
+const socketio = require("@feathersjs/socketio");
 const cors = require("cors");
 
 const mongoose = require("mongoose");
@@ -11,22 +11,23 @@ const db = require("./models/index");
 
 mongoose.Promise = global.Promise;
 
-mongoose.connect("mongodb://localhost:27017/behaviorTracker", {useNewUrlParser: true});
+mongoose.connect("mongodb://localhost:27017/behaviorTracker", {
+  useNewUrlParser: true
+});
 
 const app = express(feathers());
 
 app.use(express.json());
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({ extended: true }));
+mongoose.set('useFindAndModify', false);
 
 app.configure(express.rest());
 app.configure(socketio());
 app.use(cors());
 
-
-
 // app.use("/tasks", service({
 //     Model,
-//     lean: false    
+//     lean: false
 // }));
 
 // app.service("tasks").create({
@@ -44,56 +45,55 @@ app.use(cors());
 // });
 
 //locate one task, for testing purposes
-app.get("/api/data", function (req, res){
-    db.Task.find({})
+app.get("/api/data", function(req, res) {
+  db.Task.find({})
     .then(dbTask => {
-        res.json(dbTask);
+      res.json(dbTask);
     })
-    .catch(err=> res.json(err));
+    .catch(err => res.json(err));
 });
 
 //locate task by unique mongo id
 app.get("/api/data/:id", function(req, res) {
-  db.Task
-    .findById(req.params.id)
+  db.Task.findById(req.params.id)
     .then(dbTask => res.json(dbTask))
     .catch(err => res.status(422).json(err));
 });
 
 //create new task, all booleans default to false
-app.post("/api/data/", function(req, res){
-    db.Task.create(req.body)
-      .then(dbTask => {
-        res.json(dbTask);
-      })
-      .catch(err => res.json(err));
+app.post("/api/data/", function(req, res) {
+  db.Task.create(req.body)
+    .then(dbTask => {
+      res.json(dbTask);
+    })
+    .catch(err => res.json(err));
 });
 //edit a task
 app.put("/api/data/:id/", async (req, res) => {
   // need to store days in an object with key "day", then grab the day name
   //from the clicked day, then $set to true, false whatever
-    try {
-      var Task = await db.Task.findById(req.params.id).exec();
-      Task.set(req.body);
-      var result= await db.Task.save();
-      res.send(result)
-    } catch(error) {
-      res.status(500).send(error);
+  db.Task.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    { new: true },
+    (err, dbTask) => {
+      if (err) return res.status(500).send(err);
+      return res.send(dbTask);
     }
-})
+  );
+});
 
 //delete task
 app.delete("/api/data/:id", function(req, res) {
   db.Task.findById({ _id: req.params.id })
-      .then(dbModel => dbModel.remove())
-      .then(dbModel => res.json(dbModel))
-      .catch(err => res.status(422).json(err));
+    .then(dbTask => dbTask.remove())
+    .then(dbTask => res.json(dbTask))
+    .catch(err => res.status(422).json(err));
 });
-
 
 app.use(express.errorHandler());
 
 const port = 3030;
 app.listen(port, () => {
-    console.log(`Feather server listening on port ${port}`)
+  console.log(`Feather server listening on port ${port}`);
 });
