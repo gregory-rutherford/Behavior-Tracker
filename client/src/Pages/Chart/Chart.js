@@ -5,8 +5,8 @@ import DeleteBtn from "../../Components/DeleteBtn/DeleteBtn";
 
 const Chart = function Chart() {
   const [taskName, setTaskName] = useState("");
-  const [data, setData] = useState( [] );
-
+  const [data, setData] = useState([]);
+  const [checked, setChecked] = useState(null);
 
   //submit a new task
   const handleTaskSubmit = event => {
@@ -19,10 +19,14 @@ const Chart = function Chart() {
       body: JSON.stringify(inputs)
     };
     fetch("http://localhost:3030/api/data", options)
-      .then(res => res.json()
-      .then(res => setData([...data, res]))
-      .then(res => console.log(res)))
-      .catch(err => {console.log("request failed" + err);
+      .then(res =>
+        res
+          .json()
+          .then(res => setData([...data, res]))
+          .then(res => console.log(res))
+      )
+      .catch(err => {
+        console.log("request failed" + err);
       });
   };
 
@@ -38,26 +42,26 @@ const Chart = function Chart() {
     }
   };
 
-
-  // needs to grab data from db and adjust checkbox checked value whether true or false
-
-  //im thinking about this wrong. onclick needs to send a put request and update the returned data i.e. monday: false to monday:true,
-  //then it change with fetchData function
-  //then the map will update the checked attr with by placing item.monday in the attr 
-
-  //need it to show the check if true or display empty box if false.
-
+  const handleCheckboxChange = event => {
+    console.log("hello this is working, you've passed me properly gregory");
+    const { name, checked } = event.target;
+    console.log(event.target);
+    console.log(name, checked)
+    switch (name) {
+      case "monday":
+        setChecked(checked);
+        break;
+        default:
+          break;
+    }
+  };
 
   // const handleCheckboxChange = event => {
   //   const target = event.target;
   //   const value = target.type === "checkbox" ? target.checked : target.value;
-  //   const name = target.name;
+  //   const day = target.day;
 
-  //   console.log(target + "1st console log");
-  //   console.log(value + "2nd console log");
-
-
-  //   switch (name) {
+  //   switch (day) {
   //     case "checked":
   //       setChecked(value);
   //       break;
@@ -66,7 +70,6 @@ const Chart = function Chart() {
   //   }
   // };
 
-  
   const deleteTask = id => {
     const options = {
       method: "DELETE",
@@ -75,27 +78,39 @@ const Chart = function Chart() {
       }
     };
     fetch("http://localhost:3030/api/data/" + id, options)
-      .then(res => res.json()
-      .then(fetchData(data))
-      .then(res => console.log(res)))
+      .then(res =>
+        res
+          .json()
+          .then(fetchData(data))
+          .then(res => console.log(res))
+      )
       .catch(err => {
         console.log("request failed" + err);
       });
   };
 
-  const updateTask = (id, key, value) => {
-    const options = {
-      method: "PUT",
-      headers: { "Content-Type": "application/json; charset=utf=8" },
-      body: { key: value }
-    };
+  //on this click setchecked to whatever the day and boolean value is
+  const updateTask = id => {
+    // set the input to the checked state array.
+    // const input = { monday: true };
+    console.log(id);
+    console.log(checked);
+    // console.log(day);
+    // console.log(value);
+    // const options = {
+    //   method: "PUT",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify(input)
+    // };
 
-    fetch("http://localhost:3030/api/data" + id, options)
-      .then(res => res.json().then(res => console.log(res)))
-      .then(fetchData(data))
-      .catch(err => {
-        console.log("request failed" + err);
-      });
+    // fetch("http://localhost:3030/api/data/" + id, options)
+    //   .then(res => res.json()
+    //   .then(res => console.log(res)))
+    //   .then(fetchData(data))
+    //   .then(setChecked([]))
+    //   .catch(err => {
+    //     console.log("request failed" + err);
+    //   });
   };
 
   //pulls any data from the DB and places it in state.
@@ -104,7 +119,9 @@ const Chart = function Chart() {
     const json = await response.json();
     setData(json);
   };
-  useEffect( () => {fetchData(data)}, [])
+  useEffect(() => {
+    fetchData(data);
+  }, []);
 
   return (
     <div>
@@ -124,29 +141,34 @@ const Chart = function Chart() {
         </thead>
         {data.map(item => (
           <tbody key={item._id}>
-          {console.log(item)}
+            {console.log(item)}
             <tr>
               <th>{item.taskName}</th>
-              <td className="monday" data-attr={item.monday} id={item._id}>
-                <Checkbox  onClick={()=> updateTask(item._id, Object.key(item.monday), item.monday)}checked={item.monday} id={item._id} day="monday"/>
-                {/* <Checkbox click={updateTask} id={item._id} checked={item.monday}/> */}
+              <td className="monday">
+                <Checkbox
+                  onChange={() => updateTask(item._id)}
+                  onClick={(event) => handleCheckboxChange(event)}
+                  dbChecked={item.monday}
+                  day="monday"
+                  name={item.taskName}
+                />
               </td>
-              <td className="tuesday" data-attr={item.monday} id={item._id}>
-                <Checkbox checked={item.tuesday} id={item._id} />
+              <td className="tuesday">
+                <Checkbox checked={item.tuesday} />
               </td>
-              <td className="wednesday" data-attr={item.monday} id={item._id}>
+              <td className="wednesday">
                 <Checkbox checked={item.wednesday} />
               </td>
-              <td className="thursday" data-attr={item.monday} id={item._id}>
+              <td className="thursday">
                 <Checkbox checked={item.thursday} />
               </td>
-              <td className="friday" data-attr={item.monday} id={item._id}>
+              <td className="friday">
                 <Checkbox checked={item.friday} />
               </td>
-              <td className="saturday" data-attr={item.monday} id={item._id}>
+              <td className="saturday">
                 <Checkbox checked={item.saturday} />
               </td>
-              <td className="sunday" data-attr={item.monday} id={item._id}>
+              <td className="sunday">
                 <Checkbox checked={item.sunday} />
               </td>
               <DeleteBtn onClick={() => deleteTask(item._id)} />
