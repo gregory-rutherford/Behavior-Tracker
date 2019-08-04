@@ -16,33 +16,14 @@ mongoose.connect("mongodb://localhost:27017/behaviorTracker", {
 });
 
 const app = express(feathers());
-
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 mongoose.set('useFindAndModify', false);
 
 app.configure(express.rest());
 app.configure(socketio());
-app.use(cors());
 
-// app.use("/tasks", service({
-//     Model,
-//     lean: false
-// }));
-
-// app.service("tasks").create({
-//     storageId: 1,
-//     taskName: "do laundry",
-//     monday: false,
-//     tuesday: true,
-//     wednesday: false,
-//     thursday: false,
-//     friday: false,
-//     saturday: false,
-//     sunday: true
-// }).then(function(task){
-//     console.log("created task", task);
-// });
 
 //locate one task, for testing purposes
 app.get("/api/data", function(req, res) {
@@ -68,20 +49,26 @@ app.post("/api/data/", function(req, res) {
     })
     .catch(err => res.json(err));
 });
+
 //edit a task
 app.put("/api/data/:id/", async (req, res) => {
-  // need to store days in an object with key "day", then grab the day name
-  //from the clicked day, then $set to true, false whatever
-  db.Task.findByIdAndUpdate(
-    req.params.id,
-    req.body,
-    { new: true },
-    (err, dbTask) => {
-      if (err) return res.status(500).send(err);
-      return res.send(dbTask);
-    }
-  );
-});
+  // db.Task.findById(
+  //   req.params.id,
+  //   req.body,
+  //   { new: true },
+  //   (err, dbTask) => {
+  //     if (err) return res.status(500).send(err);
+  //     return res.send(dbTask);
+  //   }
+  // );
+  db.Task.updateOne(
+    { _id: req.params.id },
+    { $set: req.body })
+    .then(dbTask => {
+      res.json(dbTask);
+    })
+      .catch(err => res.json(err));
+    });
 
 //delete task
 app.delete("/api/data/:id", function(req, res) {

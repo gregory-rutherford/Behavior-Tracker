@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect} from "react";
 import Form from "../../Components/Form/Form";
 import Checkbox from "../../Components/Checkbox/Checkbox";
 import DeleteBtn from "../../Components/DeleteBtn/DeleteBtn";
@@ -6,7 +6,11 @@ import DeleteBtn from "../../Components/DeleteBtn/DeleteBtn";
 const Chart = function Chart() {
   const [taskName, setTaskName] = useState("");
   const [data, setData] = useState([]);
-  const [checked, setChecked] = useState(null);
+  // const [checked, setChecked] = useState(Boolean);
+
+ 
+
+
 
   //submit a new task
   const handleTaskSubmit = event => {
@@ -14,7 +18,9 @@ const Chart = function Chart() {
     console.log(taskName);
     const inputs = { taskName: taskName };
     const options = {
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json"
+      },
       method: "POST",
       body: JSON.stringify(inputs)
     };
@@ -42,33 +48,57 @@ const Chart = function Chart() {
     }
   };
 
-  const handleCheckboxChange = event => {
-    console.log("hello this is working, you've passed me properly gregory");
-    const { name, checked } = event.target;
-    console.log(event.target);
-    console.log(name, checked)
-    switch (name) {
-      case "monday":
-        setChecked(checked);
-        break;
-        default:
-          break;
-    }
-  };
-
   // const handleCheckboxChange = event => {
-  //   const target = event.target;
-  //   const value = target.type === "checkbox" ? target.checked : target.value;
-  //   const day = target.day;
-
-  //   switch (day) {
-  //     case "checked":
-  //       setChecked(value);
+  //   const { name, checked } = event.target;
+  //   console.log(name, checked);  
+  //   switch (name) {
+  //     case "monday":
+  //       setChecked(checked);
+  //       break;
+  //     case "tuesday":
+  //       setChecked(checked);
+  //       break;
+  //     case "wednesday":
+  //       setChecked(checked);
+  //       break;
+  //     case "thursday":
+  //       setChecked(checked);
+  //       break;
+  //     case "friday":
+  //       setChecked(checked);
+  //       break;
+  //     case "saturday":
+  //       setChecked(checked);
+  //       break;
+  //     case "sunday":
+  //       setChecked(checked);
   //       break;
   //     default:
   //       break;
   //   }
   // };
+
+  //on this click setchecked to whatever the day and boolean value is
+  const updateTask = (id, day, value) => {
+    
+    const input = {
+        [day]: value
+    };
+    const options = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(input)
+    };
+    console.log(options.body);
+    fetch(`http://localhost:3030/api/data/${id}`, options)
+      .then(res => res.json().then(res => console.log(res)))
+      .then(fetchData(data))
+      .catch(err => {
+        console.log("request failed" + err);
+      });
+  };
 
   const deleteTask = id => {
     const options = {
@@ -87,30 +117,6 @@ const Chart = function Chart() {
       .catch(err => {
         console.log("request failed" + err);
       });
-  };
-
-  //on this click setchecked to whatever the day and boolean value is
-  const updateTask = id => {
-    // set the input to the checked state array.
-    // const input = { monday: true };
-    console.log(id);
-    console.log(checked);
-    // console.log(day);
-    // console.log(value);
-    // const options = {
-    //   method: "PUT",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify(input)
-    // };
-
-    // fetch("http://localhost:3030/api/data/" + id, options)
-    //   .then(res => res.json()
-    //   .then(res => console.log(res)))
-    //   .then(fetchData(data))
-    //   .then(setChecked([]))
-    //   .catch(err => {
-    //     console.log("request failed" + err);
-    //   });
   };
 
   //pulls any data from the DB and places it in state.
@@ -146,30 +152,60 @@ const Chart = function Chart() {
               <th>{item.taskName}</th>
               <td className="monday">
                 <Checkbox
-                  onChange={() => updateTask(item._id)}
-                  onClick={(event) => handleCheckboxChange(event)}
+                  onChange={() => updateTask(item._id, "monday", !item.monday)}
+                  // onClick={event => handleCheckboxChange(event)}
                   dbChecked={item.monday}
                   day="monday"
-                  name={item.taskName}
+                  taskName={item.taskName}
                 />
               </td>
               <td className="tuesday">
-                <Checkbox checked={item.tuesday} />
+                <Checkbox
+                  dbChecked={item.tuesday}
+                  onChange={() => updateTask(item._id, "tuesday", !item.tuesday)}
+                  // onClick={event => handleCheckboxChange(event)}
+                  taskName={item.taskName}
+                />
               </td>
               <td className="wednesday">
-                <Checkbox checked={item.wednesday} />
+                <Checkbox
+                  dbChecked={item.wednesday}
+                  onChange={() => updateTask(item._id, "wednesday", !item.wednesday)}
+                  // onClick={event => handleCheckboxChange(event)}
+                  taskName={item.taskName}
+                />
               </td>
               <td className="thursday">
-                <Checkbox checked={item.thursday} />
+                <Checkbox
+                  dbChecked={item.thursday}
+                  onChange={() => updateTask(item._id, "thursday", !item.thursday)}
+                  // onClick={event => handleCheckboxChange(event)}
+                  taskName={item.taskName}
+                />
               </td>
               <td className="friday">
-                <Checkbox checked={item.friday} />
+                <Checkbox
+                  dbChecked={item.friday}
+                  onChange={() => updateTask(item._id, "friday", !item.friday)}
+                  // onClick={event => handleCheckboxChange(event)}
+                  taskName={item.taskName}
+                />
               </td>
               <td className="saturday">
-                <Checkbox checked={item.saturday} />
+                <Checkbox
+                  dbChecked={item.saturday}
+                  onChange={() => updateTask(item._id, "saturday", !item.saturday)}
+                  // onClick={event => handleCheckboxChange(event)}
+                  taskName={item.taskName}
+                />
               </td>
               <td className="sunday">
-                <Checkbox checked={item.sunday} />
+                <Checkbox
+                  dbChecked={item.sunday}
+                  onChange={() => updateTask(item._id, "sunday", !item.sunday)}
+                  // onClick={event => handleCheckboxChange(event)}
+                  taskName={item.taskName}
+                />
               </td>
               <DeleteBtn onClick={() => deleteTask(item._id)} />
             </tr>
