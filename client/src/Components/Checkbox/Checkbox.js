@@ -9,7 +9,7 @@ const Checkbox = props => {
         onChange={props.onChange}
         onClick={props.onClick}
         type="checkbox"
-        day={props.day}
+        checked={props.checked}
       />
       <input type="text"
       placeholder="Time spent on task"

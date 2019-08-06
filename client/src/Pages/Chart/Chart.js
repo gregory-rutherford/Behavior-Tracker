@@ -78,7 +78,6 @@ const Chart = function Chart() {
   //   }
   // };
 
-  //on this click setchecked to whatever the day and boolean value is
   const updateTask = (id, day, value) => {
     
     const input = {
@@ -93,8 +92,13 @@ const Chart = function Chart() {
     };
     console.log(options.body);
     fetch(`http://localhost:3030/api/data/${id}`, options)
-      .then(res => res.json().then(res => console.log(res)))
-      .then(fetchData(data))
+      .then(res =>
+        res
+          .json()
+
+          .then(fetchData(data))
+          .then(res => console.log(res))
+      )
       .catch(err => {
         console.log("request failed" + err);
       });
@@ -125,6 +129,7 @@ const Chart = function Chart() {
     const json = await response.json();
     setData(json);
   };
+
   useEffect(() => {
     fetchData(data);
   }, []);
@@ -165,6 +170,7 @@ const Chart = function Chart() {
                   onChange={() => updateTask(item._id, "tuesday", !item.tuesday)}
                   // onClick={event => handleCheckboxChange(event)}
                   taskName={item.taskName}
+                  checked={null}
                 />
               </td>
               <td className="wednesday">
