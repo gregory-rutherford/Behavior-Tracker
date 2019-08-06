@@ -7,12 +7,12 @@ const Form = (props) => {
       <form>
         <input
           type="text"
-          placeholder="Your Task"
+          placeholder="Add a new task"
           name="taskName"
           value={props.taskName}
           onChange={props.change}
         />
-        <button type="submit" onClick={props.submit}>Submit</button>
+        <button type="submit" onClick={props.submit}>Submit Task</button>
       </form>
     );
 }
