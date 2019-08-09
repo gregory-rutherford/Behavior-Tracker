@@ -10,7 +10,11 @@ const taskSchema = new Schema({
   thursday: { type: Boolean, default: false },
   friday: { type: Boolean, default: false },
   saturday: { type: Boolean, default: false },
-  sunday: { type: Boolean, default: false }
+  sunday: { type: Boolean, default: false },
+  hours: {
+    type: Schema.Types.ObjectId,
+    ref: "Hours"
+  }
 });
 
 const Task = mongoose.model("Task", taskSchema);

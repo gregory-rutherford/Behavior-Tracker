@@ -12,7 +12,9 @@ const Form = (props) => {
           value={props.taskName}
           onChange={props.change}
         />
-        <button type="submit" onClick={props.submit}>Submit Task</button>
+        <button type="submit" onClick={props.submit}>
+          &#43;
+        </button>
       </form>
     );
 }
