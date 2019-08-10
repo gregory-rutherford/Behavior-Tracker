@@ -11,16 +11,16 @@ const Checkbox = props => {
         type="checkbox"
         checked={props.checked}
       />
-      <input
+      {/* <input
         type="text"
         placeholder="Time spent on task"
         name={props.day + props.id}
         onChange={event => props.hoursChange(event, props.day + props.id)}
         value={props.hours}
-      />
-      <button type="submit" onClick={() => props.submit(props.id)}>
+      /> */}
+      {/* <button type="submit" onClick={() => props.submit(props.id)}>
         Add hours
-      </button>
+      </button> */}
     </div>
   );
 };

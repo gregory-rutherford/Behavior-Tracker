@@ -28,6 +28,7 @@ app.configure(socketio());
 //locate one task, for testing purposes
 app.get("/api/data", function(req, res) {
   db.Task.find({})
+    .populate("hours")
     .then(dbTask => {
       res.json(dbTask);
     })

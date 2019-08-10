@@ -2,17 +2,43 @@ import React, { useState, useEffect } from "react";
 import Form from "../../Components/Form/Form";
 import Checkbox from "../../Components/Checkbox/Checkbox";
 import DeleteBtn from "../../Components/DeleteBtn/DeleteBtn";
+import HoursForm from "../../Components/HoursForm/HoursForm";
 
 const Chart = function Chart() {
   const [taskName, setTaskName] = useState("");
   const [data, setData] = useState([]);
   const [hours, setHours] = useState("");
-  const [returnedHours, setReturnedHours] = useState("");
+  const [returnedHours, setReturnedHours] = useState(false);
 
+  //-------------FORM HANDLING -----------------
+  //getting input from task form
+  const handleInputChange = event => {
+    const { name, value } = event.target;
+    switch (name) {
+      case "taskName":
+        setTaskName(value);
+        break;
+      default:
+        break;
+    }
+  };
+
+  const handleHoursChange = (event, taskNameId) => {
+    const { name, value } = event.target;
+    switch (name) {
+      case taskNameId:
+        setHours(value);
+        break;
+      default:
+        break;
+    }
+  };
+  //----------------------------------------
+
+  //--------------FETCH CALLS --------------
   //submit a new task
   const handleTaskSubmit = event => {
     event.preventDefault();
-    console.log(taskName);
     const inputs = { taskName: taskName };
     const options = {
       headers: {
@@ -33,30 +59,7 @@ const Chart = function Chart() {
       });
   };
 
-  //getting input from task form
-  const handleInputChange = event => {
-    const { name, value } = event.target;
-    switch (name) {
-      case "taskName":
-        setTaskName(value);
-        break;
-      default:
-        break;
-    }
-  };
-
-  const handleHoursChange = (event, dayId) => {
-    const { name, value } = event.target;
-    switch (name) {
-      case dayId:
-        setHours(value);
-        break;
-      default:
-        break;
-    }
-  };
-
-  //submit hours 
+  //submit hours
   const submitHours = id => {
     const input = {
       hours: hours
@@ -69,49 +72,23 @@ const Chart = function Chart() {
       body: JSON.stringify(input)
     };
     fetch(`http://localhost:3030/api/data/${id}`, options)
-    .then(res => res.json())
-    .then(fetchData(data))
+      .then(res =>
+        res
+          .json()
+          .then(fetchData(data))
+          .then(res => console.log(res))
+      )
+      .catch(err => console.log(err));
   };
 
   //get hours
-  
   const getHours = id => {
     fetch(`http://localhost:3030/api/data/${id}`)
-    .then(res => res.json())
-    .then(res => setReturnedHours(res))
-    .catch(err => (console.log(err)));
+      .then(res => res.json())
+      .catch(err => console.log(err));
   };
 
-  // const handleCheckboxChange = event => {
-  //   const { name, checked } = event.target;
-  //   console.log(name, checked);
-  //   switch (name) {
-  //     case "monday":
-  //       setChecked(checked);
-  //       break;
-  //     case "tuesday":
-  //       setChecked(checked);
-  //       break;
-  //     case "wednesday":
-  //       setChecked(checked);
-  //       break;
-  //     case "thursday":
-  //       setChecked(checked);
-  //       break;
-  //     case "friday":
-  //       setChecked(checked);
-  //       break;
-  //     case "saturday":
-  //       setChecked(checked);
-  //       break;
-  //     case "sunday":
-  //       setChecked(checked);
-  //       break;
-  //     default:
-  //       break;
-  //   }
-  // };
-
+  //update a task with boolean value from input select
   const updateTask = (id, day, value) => {
     const input = {
       [day]: value
@@ -127,7 +104,6 @@ const Chart = function Chart() {
       .then(res =>
         res
           .json()
-
           .then(fetchData(data))
           .then(res => console.log(res))
       )
@@ -155,7 +131,9 @@ const Chart = function Chart() {
         console.log("request failed" + err);
       });
   };
+  //-----------------------------------------------------
 
+  //-------------useEffect Global data set----------------
   //pulls any data from the DB and places it in state.
   const fetchData = async () => {
     const response = await fetch(`http://localhost:3030/api/data`);
@@ -166,6 +144,8 @@ const Chart = function Chart() {
   useEffect(() => {
     fetchData(data);
   }, []);
+
+  //--------------------------------------------------------
 
   return (
     <div>
@@ -193,15 +173,14 @@ const Chart = function Chart() {
                   onChange={() =>
                     updateTask(item._id, "monday", !item.monday)
                   }
-                  // onClick={event => handleCheckboxChange(event)}
                   dbChecked={item.monday}
                   day="monday"
                   taskName={item.taskName}
                   id={item._id}
-                  hoursChange={handleHoursChange}
+                  // hoursChange={handleHoursChange}
                   submit={submitHours}
                 />
-                <p onClick={() => getHours(item.hours)}>hey{returnedHours}</p>
+                {/* <p onClick={() => getHours(item._id)}>hey}</p> */}
               </td>
               <td className="tuesday">
                 <Checkbox
@@ -209,10 +188,10 @@ const Chart = function Chart() {
                   onChange={() =>
                     updateTask(item._id, "tuesday", !item.tuesday)
                   }
-                  // onClick={event => handleCheckboxChange(event)}
                   taskName={item.taskName}
                   id={item._id}
-                  hoursChange={handleHoursChange}
+                  // hoursChange={handleHoursChange}
+                  day="tuesday"
                 />
               </td>
               <td className="wednesday">
@@ -221,10 +200,10 @@ const Chart = function Chart() {
                   onChange={() =>
                     updateTask(item._id, "wednesday", !item.wednesday)
                   }
-                  // onClick={event => handleCheckboxChange(event)}
                   taskName={item.taskName}
                   id={item._id}
-                  hoursChange={handleHoursChange}
+                  // hoursChange={handleHoursChange}
+                  day="wednesday"
                 />
               </td>
               <td className="thursday">
@@ -233,10 +212,10 @@ const Chart = function Chart() {
                   onChange={() =>
                     updateTask(item._id, "thursday", !item.thursday)
                   }
-                  // onClick={event => handleCheckboxChange(event)}
                   taskName={item.taskName}
                   id={item._id}
-                  hoursChange={handleHoursChange}
+                  // hoursChange={handleHoursChange}
+                  day="thursday"
                 />
               </td>
               <td className="friday">
@@ -245,10 +224,10 @@ const Chart = function Chart() {
                   onChange={() =>
                     updateTask(item._id, "friday", !item.friday)
                   }
-                  // onClick={event => handleCheckboxChange(event)}
                   taskName={item.taskName}
                   id={item._id}
-                  hoursChange={handleHoursChange}
+                  // hoursChange={handleHoursChange}
+                  day="friday"
                 />
               </td>
               <td className="saturday">
@@ -257,10 +236,10 @@ const Chart = function Chart() {
                   onChange={() =>
                     updateTask(item._id, "saturday", !item.saturday)
                   }
-                  // onClick={event => handleCheckboxChange(event)}
                   taskName={item.taskName}
                   id={item._id}
-                  hoursChange={handleHoursChange}
+                  // hoursChange={handleHoursChange}
+                  day="saturday"
                 />
               </td>
               <td className="sunday">
@@ -269,13 +248,20 @@ const Chart = function Chart() {
                   onChange={() =>
                     updateTask(item._id, "sunday", !item.sunday)
                   }
-                  // onClick={event => handleCheckboxChange(event)}
                   taskName={item.taskName}
                   id={item._id}
-                  hoursChange={handleHoursChange}
+                  // hoursChange={handleHoursChange}
+                  day="sunday"
                 />
               </td>
               <DeleteBtn onClick={() => deleteTask(item._id)} />
+              {/* <button onClick={() => getHours(item._id)}>test</button> } */}
+              {item.hours === undefined ? <HoursForm
+                hoursChange={handleHoursChange}
+                submit={submitHours}
+                id={item._id}
+                taskName={item.taskName}
+              /> : <p>{item.hours.hours} hours logged this week</p>}
             </tr>
           </tbody>
         ))}
