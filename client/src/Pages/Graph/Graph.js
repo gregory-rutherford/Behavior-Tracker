@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
+import "./Graph.css";
 
-import { VictoryBar, VictoryChart, VictoryAxis } from "victory";
+import { VictoryBar, VictoryChart, VictoryAxis, VictoryTheme } from "victory";
 
 const Graph = function Graph() {
   const [data, setData] = useState([]);
@@ -17,18 +18,22 @@ const Graph = function Graph() {
   }, []);
 
   const dummyData = [
-    { week: "week1", timesCompleted: 3 },
+    { week: "week1", timesCompleted: 2 },
     { week: "week2", timesCompleted: 4 }
   ];
+  
 
   return (
-    <div>
-      <h1>Your Weekly Charts</h1>
-      <VictoryChart domainPadding={10}>
-        <VictoryAxis tickValues={["Week 1", "Week 2"]} />
-        <VictoryAxis dependentAxis tickFormat={x => `{x / 1}k`} />
-        <VictoryBar data={dummyData} x={"week"} y={"timesCompleted"} />
-      </VictoryChart>
+    <div className="chart">
+      {console.log(data)}
+      {data.map(item => (
+        <VictoryChart domainPadding={2} theme={VictoryTheme.material}>
+          <VictoryAxis tickValues={[item.taskName]} />
+          <VictoryAxis dependentAxis tickFormat={(x) => (`$${x / 100} hours`)} />
+          <VictoryBar data={dummyData} x={"week"} y={"timesCompleted"} />
+        </VictoryChart>
+        
+      ))}
     </div>
   );
 };

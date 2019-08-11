@@ -4,6 +4,7 @@ import Wrapper from "./Components/Wrapper/Wrapper";
 import Chart from "./Pages/Chart/Chart";
 import Splash from "./Pages/Splash/Splash";
 import Graph from "./Pages/Graph/Graph";
+import Footer from "./Components/Footer/Footer";
 import {BrowserRouter as Router, Route } from "react-router-dom";
 
 
@@ -17,6 +18,7 @@ function App() {
           <Route exact path="/charts" component={Chart} />
           <Route exact path="/graphs" component={Graph} />
         </Wrapper>
+        <Footer />
       </div>
     </Router>
   );

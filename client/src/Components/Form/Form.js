@@ -4,13 +4,15 @@ const Form = (props) => {
 
 
     return (
-      <form>
+      <form className="taskForm">
         <input
           type="text"
           placeholder="Add a new task"
           name="taskName"
-          value={props.taskName}
-          onChange={props.change}
+          value={props.value}
+          onChange={props.onChange}
+          size="14"
+          required
         />
         <button type="submit" onClick={props.submit}>
           &#43;

@@ -1,0 +1,20 @@
+.behvChart {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    background-color: #eef5db;
+    justify-content: space-around;
+    text-align: center;
+    font-family: 'Arial Narrow', Arial, sans-serif;
+    font-size: 20px;
+}
+
+.taskForm {
+    margin: 20px;
+    border: 2px solid orange;
+}
+
+table {
+    border: 2px solid purple;
+}

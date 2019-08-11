@@ -3,25 +3,20 @@ import Form from "../../Components/Form/Form";
 import Checkbox from "../../Components/Checkbox/Checkbox";
 import DeleteBtn from "../../Components/DeleteBtn/DeleteBtn";
 import HoursForm from "../../Components/HoursForm/HoursForm";
+import "./Chart.css";
 
 const Chart = function Chart() {
   const [taskName, setTaskName] = useState("");
   const [data, setData] = useState([]);
   const [hours, setHours] = useState("");
-  const [returnedHours, setReturnedHours] = useState(false);
 
   //-------------FORM HANDLING -----------------
   //getting input from task form
-  const handleInputChange = event => {
-    const { name, value } = event.target;
-    switch (name) {
-      case "taskName":
-        setTaskName(value);
-        break;
-      default:
-        break;
-    }
-  };
+  const onChange = event => {
+    const { value } = event.target;
+    setTaskName(value);
+    };
+  
 
   const handleHoursChange = (event, taskNameId) => {
     const { name, value } = event.target;
@@ -57,6 +52,7 @@ const Chart = function Chart() {
       .catch(err => {
         console.log("request failed" + err);
       });
+      setTaskName("");
   };
 
   //submit hours
@@ -147,9 +143,13 @@ const Chart = function Chart() {
 
   //--------------------------------------------------------
 
+  //-----------Post all data to pastTask, clear all current week ----------
+  
+
+
   return (
-    <div>
-      <Form change={handleInputChange} submit={handleTaskSubmit} />
+    <div className="behvChart">
+      <Form onChange={onChange} submit={handleTaskSubmit} value={taskName} />
       <table>
         <thead>
           <tr>
@@ -165,7 +165,6 @@ const Chart = function Chart() {
         </thead>
         {data.map(item => (
           <tbody key={item._id}>
-            {console.log(item)}
             <tr>
               <th>{item.taskName}</th>
               <td className="monday">
@@ -177,7 +176,6 @@ const Chart = function Chart() {
                   day="monday"
                   taskName={item.taskName}
                   id={item._id}
-                  // hoursChange={handleHoursChange}
                   submit={submitHours}
                 />
                 {/* <p onClick={() => getHours(item._id)}>hey}</p> */}
@@ -190,7 +188,6 @@ const Chart = function Chart() {
                   }
                   taskName={item.taskName}
                   id={item._id}
-                  // hoursChange={handleHoursChange}
                   day="tuesday"
                 />
               </td>
@@ -202,7 +199,6 @@ const Chart = function Chart() {
                   }
                   taskName={item.taskName}
                   id={item._id}
-                  // hoursChange={handleHoursChange}
                   day="wednesday"
                 />
               </td>
@@ -214,7 +210,6 @@ const Chart = function Chart() {
                   }
                   taskName={item.taskName}
                   id={item._id}
-                  // hoursChange={handleHoursChange}
                   day="thursday"
                 />
               </td>
@@ -226,7 +221,6 @@ const Chart = function Chart() {
                   }
                   taskName={item.taskName}
                   id={item._id}
-                  // hoursChange={handleHoursChange}
                   day="friday"
                 />
               </td>
@@ -238,7 +232,6 @@ const Chart = function Chart() {
                   }
                   taskName={item.taskName}
                   id={item._id}
-                  // hoursChange={handleHoursChange}
                   day="saturday"
                 />
               </td>
@@ -250,7 +243,6 @@ const Chart = function Chart() {
                   }
                   taskName={item.taskName}
                   id={item._id}
-                  // hoursChange={handleHoursChange}
                   day="sunday"
                 />
               </td>
