@@ -1,17 +1,18 @@
 import React from "react";
+import "./form.css";
 
 const Form = (props) => {
 
 
     return (
       <form className="taskForm">
+      <label>Task Entry</label>
         <input
           type="text"
           placeholder="Add a new task"
           name="taskName"
           value={props.value}
           onChange={props.onChange}
-          size="14"
           required
         />
         <button type="submit" onClick={props.submit}>

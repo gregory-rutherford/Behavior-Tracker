@@ -4,5 +4,6 @@ footer {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     border-top: 1px solid #4f6367;
     width: 100vw;
+    height: auto;
     justify-content: center;
 }

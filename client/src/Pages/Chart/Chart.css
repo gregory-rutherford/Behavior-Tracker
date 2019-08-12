@@ -3,18 +3,46 @@
     flex-direction: row;
     flex-wrap: wrap;
     align-content: center;
-    background-color: #eef5db;
+    background-color: #eef5dbc2;
     justify-content: space-around;
     text-align: center;
     font-family: 'Arial Narrow', Arial, sans-serif;
     font-size: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    min-height: 760px;
 }
 
-.taskForm {
-    margin: 20px;
-    border: 2px solid orange;
-}
+
 
 table {
-    border: 2px solid purple;
+    border: 2px solid black;
+    border-collapse: collapse;
+    display: table;
 }
+
+th {
+    padding-left: 6px;
+    padding-right: 6px;
+    border-bottom: 2px solid black;
+    border-right: 2px solid black;
+}
+
+th {
+    width: 90px;
+}
+
+td {
+    border-right: 2px solid black;
+    border-bottom: 2px solid black;
+}
+
+tr {
+    border-bottom: 2px solid black;
+}
+
+input {
+    margin: 10px;
+}
+
+

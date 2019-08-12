@@ -1,0 +1,19 @@
+button {
+    background-color: #4f6367;
+    border-color: #4f6367;
+    color: #eeeeee;
+    margin: 6px;
+    font-size: 18px;
+}
+
+.taskForm {
+    margin: 20px;
+    /* border: 2px solid orange; */
+    display: flex;
+    flex-direction: column;
+    font-weight: 600;
+}
+
+label {
+    margin: 10px;
+}

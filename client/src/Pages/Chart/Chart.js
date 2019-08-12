@@ -161,6 +161,7 @@ const Chart = function Chart() {
             <th>Friday</th>
             <th>Saturday</th>
             <th>Sunday</th>
+            <th>Hours</th>
           </tr>
         </thead>
         {data.map(item => (

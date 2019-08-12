@@ -1,8 +1,9 @@
 import React from "react";
+import "./hoursForm.css";
 
 const HoursForm = props => {
     return (
-      <div>
+      <div className="hoursForm">
         <input
           type="text"
           placeholder="Approximate hours this week"

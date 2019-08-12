@@ -1,7 +1,11 @@
 import React from "react";
 
 const DeleteBtn = props => {
-  return <button {...props}>✗</button>;
+  return (
+    <div>
+      <button {...props}>✗</button>
+    </div>
+  );
 };
 
 export default DeleteBtn;

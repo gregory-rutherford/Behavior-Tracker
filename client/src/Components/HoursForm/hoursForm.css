@@ -1,0 +1,4 @@
+.hoursForm {
+    display: flex;
+    flex-direction: column;
+}

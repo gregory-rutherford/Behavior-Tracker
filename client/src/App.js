@@ -11,14 +11,14 @@ import {BrowserRouter as Router, Route } from "react-router-dom";
 function App() {
   return (
     <Router>
-      <div>
+      <div className="page">
         <Nav />
         <Wrapper>
           <Route exact path="/" component={Splash} />
           <Route exact path="/charts" component={Chart} />
           <Route exact path="/graphs" component={Graph} />
+          <Footer />
         </Wrapper>
-        <Footer />
       </div>
     </Router>
   );
