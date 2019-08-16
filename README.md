@@ -10,10 +10,9 @@ An id is stored via local storage and once the user enters a task the task objec
 ### The Stack
 
 __Front End__
-* React
-* Materialize
+* React Hooks
 
 __Back End__
 * Feathers.js
-* Express (via Feathers)
-* Mongoose
+* Express 
+* Mongo/Mongoose
