@@ -1,3 +1,4 @@
 module.exports = {
-    Task: require("./task")
+    Task: require("./task"),
+    Hours: require("./hours"),
 };

@@ -28,6 +28,7 @@ app.configure(socketio());
 //locate one task, for testing purposes
 app.get("/api/data", function(req, res) {
   db.Task.find({})
+    .populate("hours")
     .then(dbTask => {
       res.json(dbTask);
     })
@@ -35,11 +36,11 @@ app.get("/api/data", function(req, res) {
 });
 
 //locate task by unique mongo id
-app.get("/api/data/:id", function(req, res) {
-  db.Task.findById(req.params.id)
-    .then(dbTask => res.json(dbTask))
-    .catch(err => res.status(422).json(err));
-});
+// app.get("/api/data/:id", function(req, res) {
+//   db.Task.findById(req.params.id)
+//     .then(dbTask => res.json(dbTask))
+//     .catch(err => res.status(422).json(err));
+// });
 
 //create new task, all booleans default to false
 app.post("/api/data/", function(req, res) {
@@ -52,15 +53,6 @@ app.post("/api/data/", function(req, res) {
 
 //edit a task
 app.put("/api/data/:id/", async (req, res) => {
-  // db.Task.findById(
-  //   req.params.id,
-  //   req.body,
-  //   { new: true },
-  //   (err, dbTask) => {
-  //     if (err) return res.status(500).send(err);
-  //     return res.send(dbTask);
-  //   }
-  // );
   db.Task.updateOne(
     { _id: req.params.id },
     { $set: req.body })
@@ -76,6 +68,35 @@ app.delete("/api/data/:id", function(req, res) {
     .then(dbTask => dbTask.remove())
     .then(dbTask => res.json(dbTask))
     .catch(err => res.status(422).json(err));
+});
+
+//submit hours
+app.post("/api/data/:id", function(req, res) {
+  db.Hours.create(req.body)
+    .then(function(dbHours) {
+      return db.Task.findOneAndUpdate(
+        { _id: req.params.id },
+        { hours: dbHours._id },
+      );
+    })
+    .then(function(dbTask) {
+      res.json(dbTask);
+    })
+    .catch(function(err) {
+      res.json(err);
+    });
+});
+
+//view hours
+app.get("/api/data/:id", function(req, res) {
+  db.Task.findOne({ _id: req.params.id })
+    .populate("hours")
+    .then(function(dbTask) {
+      res.json(dbTask);
+    })
+    .catch(function(err) {
+      res.json(err);
+    });
 });
 
 app.use(express.errorHandler());

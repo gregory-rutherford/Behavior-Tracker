@@ -1,14 +1,23 @@
 import React from "react";
+import "./NavStyle.css";
 
 const Nav = () => {
-    return (
+  return (
+    <div className="container">
       <nav>
-        <ul>
-          <h2>Oh Behave</h2>
-          <a href="/charts">Go to charts</a>
-        </ul>
+        <p className="title">
+          Behavior Tracker<span> &#x2611;</span>
+        </p>
+        <a className="link-item" href="/charts">
+          Charts
+        </a>
+        <p className="line"> | </p>
+        <a className="link-item" href="/graphs">
+          Graphs
+        </a>
       </nav>
-    );
+    </div>
+  );
 };
 
 export default Nav;

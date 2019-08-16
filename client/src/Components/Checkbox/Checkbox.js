@@ -7,13 +7,9 @@ const Checkbox = props => {
         name={props.day}
         defaultChecked={props.dbChecked}
         onChange={props.onChange}
-        onClick={props.onClick}
         type="checkbox"
         checked={props.checked}
       />
-      <input type="text"
-      placeholder="Time spent on task"
-       />
     </div>
   );
 };

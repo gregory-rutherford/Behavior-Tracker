@@ -1,0 +1,46 @@
+.container {
+    display: flex;
+    background-color: #b8d8d8;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    border-bottom: 1px solid #4f6367;
+}
+
+nav {
+    display: flex;
+    width: 100vw;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+.title {
+    font-weight: 500;
+    font-size: 38px;
+    flex: 1;
+    margin-left: 20px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-decoration: underline;
+    text-decoration-color: #fe5f55;
+}
+
+.link-item {
+    font-size: 32px;
+    margin: 10px;
+}
+
+a:visited {
+    color: black;
+}
+
+a:hover {
+    color: #fe5f55;
+}
+
+.line {
+    font-size: 30px;
+    margin: auto;
+}
+
+a {
+    text-decoration-color: #fe5f55
+}
