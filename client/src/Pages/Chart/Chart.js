@@ -131,6 +131,8 @@ const Chart = function Chart() {
 
   //-------------useEffect Global data set----------------
   //pulls any data from the DB and places it in state.
+  //be sure to keep the dependency array to avoid the infinite call
+  
   const fetchData = async () => {
     const response = await fetch(`http://localhost:3030/api/data`);
     const json = await response.json();
@@ -179,7 +181,6 @@ const Chart = function Chart() {
                   id={item._id}
                   submit={submitHours}
                 />
-                {/* <p onClick={() => getHours(item._id)}>hey}</p> */}
               </td>
               <td className="tuesday">
                 <Checkbox
@@ -248,7 +249,6 @@ const Chart = function Chart() {
                 />
               </td>
               <DeleteBtn onClick={() => deleteTask(item._id)} />
-              {/* <button onClick={() => getHours(item._id)}>test</button> } */}
               {item.hours === undefined ? <HoursForm
                 hoursChange={handleHoursChange}
                 submit={submitHours}

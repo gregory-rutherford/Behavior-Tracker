@@ -1,7 +1,7 @@
 button {
-    background-color: #4f6367;
-    border-color: #4f6367;
-    color: #eeeeee;
+    background-color: #b8d8d8;
+    border-color: #74979e;
+    color: black;
     margin: 6px;
     font-size: 18px;
 }
@@ -16,4 +16,8 @@ button {
 
 label {
     margin: 10px;
+}
+
+button:hover {
+    background-color: #d4ffff;
 }

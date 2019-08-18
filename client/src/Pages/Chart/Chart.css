@@ -11,11 +11,12 @@
     padding-top: 20px;
     padding-bottom: 20px;
     min-height: 760px;
+    padding: 0;
 }
 
 
 
-table {
+/* table {
     border: 2px solid black;
     border-collapse: collapse;
     display: table;
@@ -39,6 +40,18 @@ td {
 
 tr {
     border-bottom: 2px solid black;
+} */
+
+
+td {
+    box-sizing: border-box;
+    flex-grow: 1;
+    /* width: 100%; */
+    padding: 0.8em 1.2em;
+    overflow: hidden;
+    list-style: none;
+    border: solid black;
+    background: fade(slategrey, 20%);
 }
 
 input {
