@@ -48,7 +48,7 @@ app.get("/api/data", function(req, res) {
 
 
 //create new task, all booleans default to false
-app.post("/api/data/", function(req, res) {
+app.post("/api/data", function(req, res) {
   db.Task.create(req.body)
     .then(dbTask => {
       res.json(dbTask);
@@ -57,7 +57,7 @@ app.post("/api/data/", function(req, res) {
 });
 
 //edit a task
-app.put("/api/data/:id/", async (req, res) => {
+app.put("/api/data/:id", async (req, res) => {
   db.Task.updateOne(
     { _id: req.params.id },
     { $set: req.body })
