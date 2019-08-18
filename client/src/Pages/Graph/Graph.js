@@ -18,22 +18,22 @@ const Graph = function Graph() {
   }, []);
 
   const dummyData = [
-    { week: "week1", timesCompleted: 2 },
-    { week: "week2", timesCompleted: 4 }
+    { task: "Practice React", timesCompleted: 2 },
+    { task: "Clean Litterbox", timesCompleted: 4 }
   ];
   
 
   return (
     <div className="chart">
-      {console.log(data)}
-      {data.map(item => (
-        <VictoryChart domainPadding={2} theme={VictoryTheme.material}>
-          <VictoryAxis tickValues={[item.taskName]} />
-          <VictoryAxis dependentAxis tickFormat={(x) => (`$${x / 100} hours`)} />
-          <VictoryBar data={dummyData} x={"week"} y={"timesCompleted"} />
-        </VictoryChart>
-        
-      ))}
+    <h3>This is a static chart, dynamic charts coming soon...</h3>
+      <VictoryChart
+        domainPadding={50}
+        style={{ parent: { maxWidth: "50%", maxHeight: "50%" } }}
+      >
+        <VictoryAxis tickValues={["Practice React", "Clean Litterbox"]}/>
+        <VictoryAxis dependentAxis tickValues={[2,4]} tickFormat={t => `${Math.round(t)} days`} />
+        <VictoryBar data={dummyData} x={"task"} y={"timesCompleted"} />
+      </VictoryChart>
     </div>
   );
 };
