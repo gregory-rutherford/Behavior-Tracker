@@ -9,11 +9,11 @@ const Nav = () => {
           Behavior Tracker<span> &#x2611;</span>
         </p>
         <a className="link-item" href="/charts">
-          Charts
+          Table
         </a>
         <p className="line"> | </p>
         <a className="link-item" href="/graphs">
-          Graphs
+          Graph
         </a>
       </nav>
     </div>
