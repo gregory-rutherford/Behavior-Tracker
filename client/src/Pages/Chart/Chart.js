@@ -42,7 +42,7 @@ const Chart = function Chart() {
       method: "POST",
       body: JSON.stringify(inputs)
     };
-    fetch("http://localhost:3030/api/data", options)
+    fetch("/api/data", options)
       .then(res =>
         res
           .json()
@@ -67,7 +67,7 @@ const Chart = function Chart() {
       },
       body: JSON.stringify(input)
     };
-    fetch(`http://localhost:3030/api/data/${id}`, options)
+    fetch(`/api/data/${id}`, options)
       .then(res =>
         res
           .json()
@@ -79,7 +79,7 @@ const Chart = function Chart() {
 
   //get hours
   const getHours = id => {
-    fetch(`http://localhost:3030/api/data/${id}`)
+    fetch(`/api/data/${id}`)
       .then(res => res.json())
       .catch(err => console.log(err));
   };
@@ -96,7 +96,7 @@ const Chart = function Chart() {
       },
       body: JSON.stringify(input)
     };
-    fetch(`http://localhost:3030/api/data/${id}`, options)
+    fetch(`/api/data/${id}`, options)
       .then(res =>
         res
           .json()
@@ -116,7 +116,7 @@ const Chart = function Chart() {
         "Content-Type": "application/json"
       }
     };
-    fetch("http://localhost:3030/api/data/" + id, options)
+    fetch("/api/data/" + id, options)
       .then(res =>
         res
           .json()
@@ -134,7 +134,7 @@ const Chart = function Chart() {
   //be sure to keep the dependency array to avoid the infinite call
   
   const fetchData = async () => {
-    const response = await fetch(`http://localhost:3030/api/data`);
+    const response = await fetch(`/api/data`);
     const json = await response.json();
     setData(json);
   };

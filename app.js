@@ -4,14 +4,14 @@ const socketio = require("@feathersjs/socketio");
 const cors = require("cors");
 
 const mongoose = require("mongoose");
-const service = require("feathers-mongoose");
 
-const Model = require("./models/task");
 const db = require("./models/index");
 
 mongoose.Promise = global.Promise;
 
-mongoose.connect("mongodb://localhost:27017/behaviorTracker", {
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/behaviorTracker"
+
+mongoose.connect(MONGODB_URI, {
   useNewUrlParser: true
 });
 
@@ -20,6 +20,17 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 mongoose.set('useFindAndModify', false);
+
+if (process.env.NODE_ENV === "production") {
+  // Exprees will serve up production assets
+  app.use(express.static("client/build"));
+
+  // Express serve up index.html file if it doesn't recognize route
+  const path = require("path");
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
+}
 
 app.configure(express.rest());
 app.configure(socketio());
@@ -35,12 +46,6 @@ app.get("/api/data", function(req, res) {
     .catch(err => res.json(err));
 });
 
-//locate task by unique mongo id
-// app.get("/api/data/:id", function(req, res) {
-//   db.Task.findById(req.params.id)
-//     .then(dbTask => res.json(dbTask))
-//     .catch(err => res.status(422).json(err));
-// });
 
 //create new task, all booleans default to false
 app.post("/api/data/", function(req, res) {
@@ -101,7 +106,7 @@ app.get("/api/data/:id", function(req, res) {
 
 app.use(express.errorHandler());
 
-const port = 3030;
+const port = process.env.PORT || 3030;
 app.listen(port, () => {
   console.log(`Feather server listening on port ${port}`);
 });

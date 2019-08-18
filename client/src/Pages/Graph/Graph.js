@@ -8,7 +8,7 @@ const Graph = function Graph() {
   const [data, setData] = useState([]);
 
   const fetchData = async () => {
-    const response = await fetch(`http://localhost:3030/api/data`);
+    const response = await fetch(`/api/data`);
     const json = await response.json();
     setData(json);
   };
